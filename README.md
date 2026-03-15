@@ -1,4 +1,4 @@
-# SOS Campo Novo 🚨
+# SOS Campo 🚨
 
 Um aplicativo mobile de emergência e primeiros socorros desenvolvido para **áreas rurais e comunidades afastadas**.
 
