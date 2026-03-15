@@ -1,50 +1,80 @@
-# Welcome to your Expo app 👋
+# SOS Campo Novo 🚨
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Um aplicativo mobile de emergência e primeiros socorros desenvolvido para **áreas rurais e comunidades afastadas**.
 
-## Get started
+## 📱 Sobre o Projeto
 
-1. Install dependencies
+O **SOS Campo Novo** oferece informações rápidas e práticas sobre como agir em situações de emergência.
 
-   ```bash
-   npm install
-   ```
+### Funcionalidades:
+- 🩹 **Primeiros Socorros**: Instruções passo a passo
+- 🏥 **Guias de Emergência**: O que fazer antes da ambulância chegar
+- 📚 **Educação em Saúde**: Dicas preventivas
+- 🔍 **Interface Intuitiva**: Fácil de usar em situações de stress
 
-2. Start the app
+## 🎯 Acidentes Cobertos
 
-   ```bash
-   npx expo start
-   ```
+- Picada de cobra/animais peçonhentos
+- Choque elétrico
+- Fratura
+- Hemorragia
+- Insolação
+- Intoxicação
+- Queimadura
+- Trauma de máquina
 
-In the output, you'll find options to open the app in a
+## 🛠️ Tecnologias Utilizadas
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **React Native** com Expo
+- **TypeScript** para type safety
+- **Expo Router** para navegação
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 📋 Pré-requisitos
 
-## Get a fresh project
+- Node.js 16+
+- Expo CLI: `npm install -g expo-cli`
 
-When you're ready, run:
+## 🚀 Como Instalar e Rodar
 
 ```bash
-npm run reset-project
+git clone https://github.com/LeoniAlvesD/sos-campo-novo.git
+cd sos-campo-novo
+npm install
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Escaneie o QR code com o app **Expo Go** no seu celular!
 
-## Learn more
+## 📁 Estrutura do Projeto
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+sos-campo-novo/
+├── app/                  # Telas e rotas
+├── components/           # Componentes reutilizáveis
+├── constants/            # Constantes e temas
+├── assets/images/        # Imagens e ícones
+└── hooks/                # Custom hooks
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🤝 Como Contribuir
 
-## Join the community
+1. Faça um fork do projeto
+2. Crie uma branch: `git checkout -b feature/sua-feature`
+3. Commit: `git commit -m 'Add feature'`
+4. Push: `git push origin feature/sua-feature`
+5. Abra um Pull Request
 
-Join our community of developers creating universal apps.
+## 📧 Contato
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Desenvolvedor**: Leoni Alves D  
+**GitHub**: [@LeoniAlvesD](https://github.com/LeoniAlvesD)
+
+## ⚠️ Importante
+
+Este app é **informativo**. Em emergências reais, sempre busque ajuda médica profissional:
+- **Ambulância**: 192
+- **Corpo de Bombeiros**: 193
+
+---
+
+**Desenvolvido com ❤️ para salvar vidas em áreas rurais**: Chat with Expo users and ask questions.
