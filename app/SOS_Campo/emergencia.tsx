@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LocationMarker from '../../components/LocationMarker';
 
 const { width } = Dimensions.get('window');
 
@@ -102,6 +103,8 @@ export default function Emergencia() {
             style={styles.intoxicacao}
           />
         </View>
+
+        <LocationMarker />
       </ScrollView>
     </SafeAreaView>
   );
