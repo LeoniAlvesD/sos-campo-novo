@@ -9,7 +9,7 @@ const useLocationTracking = () => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        setErrorMsg('Permissão negada para acessar a localização');
         return;
       }
 

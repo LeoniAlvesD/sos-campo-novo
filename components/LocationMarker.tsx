@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
     elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   title: {
     fontSize: 16,
@@ -41,6 +44,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     textAlign: 'center',
+    fontSize: 14,
   },
 });
 
