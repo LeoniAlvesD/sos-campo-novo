@@ -1,4 +1,6 @@
+import ShareLocationModal from '@/components/ShareLocationModal';
 import { createTable, deleteLocation, getLocations, insertLocation } from '@/hooks/useLocationDatabase';
+import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -7,6 +9,7 @@ export default function LocalizacaoScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [locations, setLocations] = useState<{ id: number; latitude: number; longitude: number; accuracy: number | null; timestamp: string }[]>([]);
   const [loading, setLoading] = useState(false);
+  const [shareTarget, setShareTarget] = useState<{ latitude: number; longitude: number } | null>(null);
 
   // Carregar localizações salvas
   const loadLocations = useCallback(async () => {
@@ -105,6 +108,17 @@ export default function LocalizacaoScreen() {
           <Text style={styles.locationText}>
             Precisão: {location.coords.accuracy?.toFixed(2)}m
           </Text>
+          <TouchableOpacity
+            style={styles.shareButton}
+            onPress={() =>
+              setShareTarget({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              })
+            }
+          >
+            <Text style={styles.shareButtonText}>Compartilhar</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -126,18 +140,37 @@ export default function LocalizacaoScreen() {
                 {new Date(item.timestamp).toLocaleString('pt-BR')}
               </Text>
             </View>
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={() => deleteLocationRecord(item.id)}
-            >
-              <Text style={styles.deleteButtonText}>X</Text>
-            </TouchableOpacity>
+            <View style={styles.itemActions}>
+              <TouchableOpacity
+                style={styles.shareIconButton}
+                onPress={() =>
+                  setShareTarget({ latitude: item.latitude, longitude: item.longitude })
+                }
+              >
+                <Ionicons name="share-outline" size={18} color="#1f7a3f" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => deleteLocationRecord(item.id)}
+              >
+                <Text style={styles.deleteButtonText}>X</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
         ListEmptyComponent={
           <Text style={styles.emptyText}>Nenhuma localização salva ainda</Text>
         }
       />
+
+      {shareTarget && (
+        <ShareLocationModal
+          visible={!!shareTarget}
+          latitude={shareTarget.latitude}
+          longitude={shareTarget.longitude}
+          onClose={() => setShareTarget(null)}
+        />
+      )}
     </View>
   );
 }
@@ -242,5 +275,27 @@ const styles = StyleSheet.create({
     color: '#999',
     marginTop: 20,
     fontSize: 14,
+  },
+  shareButton: {
+    marginTop: 10,
+    backgroundColor: '#1f7a3f',
+    borderRadius: 8,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  shareButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  itemActions: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+  },
+  shareIconButton: {
+    padding: 10,
+    backgroundColor: '#e8f5e9',
+    borderRadius: 5,
   },
 });
