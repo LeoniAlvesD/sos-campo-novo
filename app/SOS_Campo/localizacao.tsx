@@ -1,6 +1,6 @@
 import { createTable, deleteLocation, getLocations, insertLocation } from '@/hooks/useLocationDatabase';
 import * as Location from 'expo-location';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function LocalizacaoScreen() {
@@ -8,29 +8,29 @@ export default function LocalizacaoScreen() {
   const [locations, setLocations] = useState<{ id: number; latitude: number; longitude: number; accuracy: number | null; timestamp: string }[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Inicializar banco de dados
-  useEffect(() => {
-    initializeDatabase();
-  }, []);
-
-  const initializeDatabase = async () => {
-    try {
-      await createTable();
-      loadLocations();
-    } catch (error) {
-      console.error('Erro ao inicializar banco:', error);
-    }
-  };
-
   // Carregar localizações salvas
-  const loadLocations = async () => {
+  const loadLocations = useCallback(async () => {
     try {
       const savedLocations = await getLocations();
       setLocations(savedLocations);
     } catch (error) {
       console.error('Erro ao carregar localizações:', error);
     }
-  };
+  }, []);
+
+  // Inicializar banco de dados
+  const initializeDatabase = useCallback(async () => {
+    try {
+      await createTable();
+      await loadLocations();
+    } catch (error) {
+      console.error('Erro ao inicializar banco:', error);
+    }
+  }, [loadLocations]);
+
+  useEffect(() => {
+    initializeDatabase();
+  }, [initializeDatabase]);
 
   // Obter localização atual
   const getCurrentLocation = async () => {
@@ -56,7 +56,7 @@ export default function LocalizacaoScreen() {
       await insertLocation(latitude, longitude, accuracy || 0, timestamp);
 
       Alert.alert('Sucesso', 'Localização marcada e salva!');
-      loadLocations();
+      await loadLocations();
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível obter sua localização');
       console.error(error);
@@ -70,7 +70,7 @@ export default function LocalizacaoScreen() {
     try {
       await deleteLocation(id);
       Alert.alert('Sucesso', 'Localização removida!');
-      loadLocations();
+      await loadLocations();
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível remover a localização');
       console.error(error);
