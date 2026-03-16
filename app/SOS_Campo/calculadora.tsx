@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  Dimensions,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -10,8 +9,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-
-const { width } = Dimensions.get('window');
 
 export default function CalculadoraIMC() {
   const [peso, setPeso] = useState('');
