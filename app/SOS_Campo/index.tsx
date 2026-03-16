@@ -78,18 +78,18 @@ export default function Home() {
             </Text>
           </Pressable>
           <Pressable
-      style={({ pressed }) => [
-          styles.button,
-          styles.location,
-          pressed && styles.buttonPressed
-          ]}
-  onPress={() => router.push('/SOS_Campo/localizacao')}
->
-  <Text style={styles.buttonTitle}>📍 Marcar Localização</Text>
-  <Text style={styles.buttonDescription}>
-    Registre sua posição GPS offline
-  </Text>
-</Pressable>
+            style={({ pressed }) => [
+              styles.button,
+              styles.location,
+              pressed && styles.buttonPressed
+            ]}
+            onPress={() => router.push('/SOS_Campo/localizacao')}
+          >
+            <Text style={styles.buttonTitle}>Marcar Localização</Text>
+            <Text style={styles.buttonDescription}>
+              Registre sua posição GPS offline
+            </Text>
+          </Pressable>
 
         </View>
 

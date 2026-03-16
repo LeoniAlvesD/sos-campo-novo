@@ -5,7 +5,7 @@ import { createTable, insertLocation, getLocations, deleteLocation } from '@/hoo
 
 export default function LocalizacaoScreen() {
   const [location, setLocation] = useState<any>(null);
-  const [locations, setLocations] = useState<any[]>([]);
+  const [locations, setLocations] = useState<{ id: number; latitude: number; longitude: number; accuracy: number | null; timestamp: string }[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -38,18 +38,18 @@ export default function LocalizacaoScreen() {
     setLoading(true);
     try {
       let currentLocation = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = currentLocation.coords;
+      const { latitude, longitude, accuracy } = currentLocation.coords;
 
       setLocation(currentLocation);
       
-      const timestamp = new Date().toLocaleString('pt-BR');
-      await insertLocation(timestamp, latitude, longitude);
+      const timestamp = new Date().toISOString();
+      await insertLocation(latitude, longitude, accuracy, timestamp);
       
-      Alert.alert('✅ Localização marcada!', `Latitude: ${latitude.toFixed(4)}\nLongitude: ${longitude.toFixed(4)}`);
+      Alert.alert('Localização marcada!', `Latitude: ${latitude.toFixed(4)}\nLongitude: ${longitude.toFixed(4)}`);
       
       loadLocations();
     } catch (error) {
-      Alert.alert('❌ Erro', 'Não foi possível obter sua localização');
+      Alert.alert('Erro', 'Não foi possível obter sua localização');
       console.error(error);
     } finally {
       setLoading(false);
@@ -69,19 +69,19 @@ export default function LocalizacaoScreen() {
   const handleDeleteLocation = async (id: number) => {
     try {
       await deleteLocation(id);
-      Alert.alert('✅ Deletado', 'Localização removida com sucesso');
+      Alert.alert('Deletado', 'Localização removida com sucesso');
       loadLocations();
     } catch (error) {
-      Alert.alert('❌ Erro', 'Não foi possível deletar a localização');
+      Alert.alert('Erro', 'Não foi possível deletar a localização');
     }
   };
 
-  const renderLocationItem = ({ item }: { item: any }) => (
+  const renderLocationItem = ({ item }: { item: { id: number; latitude: number; longitude: number; accuracy: number | null; timestamp: string } }) => (
     <View style={styles.locationItem}>
       <View style={styles.locationInfo}>
-        <Text style={styles.locationName}>{item.name}</Text>
+        <Text style={styles.locationName}>{new Date(item.timestamp).toLocaleString('pt-BR')}</Text>
         <Text style={styles.locationCoords}>
-          📍 {item.latitude.toFixed(4)}, {item.longitude.toFixed(4)}
+          {item.latitude.toFixed(4)}, {item.longitude.toFixed(4)}
         </Text>
       </View>
       <TouchableOpacity
@@ -95,7 +95,7 @@ export default function LocalizacaoScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>📍 Marcador de Localização Offline</Text>
+      <Text style={styles.title}>Marcador de Localização Offline</Text>
 
       {location && (
         <View style={styles.currentLocationBox}>
@@ -115,7 +115,7 @@ export default function LocalizacaoScreen() {
         disabled={loading}
       >
         <Text style={styles.markButtonText}>
-          {loading ? 'Obtendo localização...' : '📌 Marcar Localização Atual'}
+          {loading ? 'Obtendo localização...' : 'Marcar Localização Atual'}
         </Text>
       </TouchableOpacity>
 
