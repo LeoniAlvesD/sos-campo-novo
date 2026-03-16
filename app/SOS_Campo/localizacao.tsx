@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert, Share, Linking } from 'react-native';
 import * as Location from 'expo-location';
+import * as Clipboard from 'expo-clipboard';
 import { createTable, insertLocation, getLocations, deleteLocation } from '@/hooks/useLocationDatabase';
 
 export default function LocalizacaoScreen() {
@@ -76,20 +77,64 @@ export default function LocalizacaoScreen() {
     }
   };
 
+  const handleCopyLocation = async (latitude: number, longitude: number) => {
+    const text = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+    await Clipboard.setStringAsync(text);
+    Alert.alert('Copiado!', `Coordenadas copiadas:\n${text}`);
+  };
+
+  const handleShareLocation = async (latitude: number, longitude: number) => {
+    const coords = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+    const mapsUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
+    const message = `Localização:\n${coords}\n\nAbrir no Google Maps:\n${mapsUrl}`;
+    try {
+      await Share.share({ message, url: mapsUrl });
+    } catch {
+      Alert.alert('Erro', 'Não foi possível compartilhar a localização.');
+    }
+  };
+
+  const handleOpenMaps = (latitude: number, longitude: number) => {
+    const mapsUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
+    Linking.openURL(mapsUrl).catch(() =>
+      Alert.alert('Erro', 'Não foi possível abrir o Google Maps.')
+    );
+  };
+
   const renderLocationItem = ({ item }: { item: { id: number; latitude: number; longitude: number; accuracy: number | null; timestamp: string } }) => (
     <View style={styles.locationItem}>
       <View style={styles.locationInfo}>
         <Text style={styles.locationName}>{new Date(item.timestamp).toLocaleString('pt-BR')}</Text>
         <Text style={styles.locationCoords}>
-          {item.latitude.toFixed(4)}, {item.longitude.toFixed(4)}
+          {item.latitude.toFixed(6)}, {item.longitude.toFixed(6)}
         </Text>
       </View>
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() => handleDeleteLocation(item.id)}
-      >
-        <Text style={styles.deleteButtonText}>Deletar</Text>
-      </TouchableOpacity>
+      <View style={styles.locationActions}>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => handleCopyLocation(item.latitude, item.longitude)}
+        >
+          <Text style={styles.actionButtonText}>Copiar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.shareButton]}
+          onPress={() => handleShareLocation(item.latitude, item.longitude)}
+        >
+          <Text style={styles.actionButtonText}>Compartilhar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.mapsButton]}
+          onPress={() => handleOpenMaps(item.latitude, item.longitude)}
+        >
+          <Text style={styles.actionButtonText}>Maps</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.deleteButton]}
+          onPress={() => handleDeleteLocation(item.id)}
+        >
+          <Text style={styles.actionButtonText}>Deletar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -193,16 +238,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   locationItem: {
-    flexDirection: 'row',
     backgroundColor: '#fff',
     padding: 12,
     marginBottom: 8,
     borderRadius: 8,
-    alignItems: 'center',
     elevation: 2,
   },
   locationInfo: {
-    flex: 1,
+    marginBottom: 8,
   },
   locationName: {
     fontSize: 14,
@@ -215,16 +258,30 @@ const styles = StyleSheet.create({
     color: '#666',
     fontFamily: 'monospace',
   },
-  deleteButton: {
-    backgroundColor: '#f44336',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+  locationActions: {
+    flexDirection: 'row',
+    gap: 6,
+    flexWrap: 'wrap',
+  },
+  actionButton: {
+    backgroundColor: '#607D8B',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: 6,
   },
-  deleteButtonText: {
+  actionButtonText: {
     color: '#fff',
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
+  },
+  shareButton: {
+    backgroundColor: '#388E3C',
+  },
+  mapsButton: {
+    backgroundColor: '#E65100',
+  },
+  deleteButton: {
+    backgroundColor: '#f44336',
   },
   emptyText: {
     textAlign: 'center',

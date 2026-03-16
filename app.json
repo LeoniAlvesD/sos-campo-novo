@@ -30,6 +30,14 @@
 
     "plugins": [
       "expo-router",
+      "expo-clipboard",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "SOS Campo precisa de acesso à sua localização para compartilhá-la em situações de emergência.",
+          "locationWhenInUsePermission": "SOS Campo precisa de acesso à sua localização para compartilhá-la em situações de emergência."
+        }
+      ],
       [
         "expo-splash-screen",
         {

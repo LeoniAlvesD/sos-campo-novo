@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LocationShare from '@/components/LocationShare';
 
 const { width } = Dimensions.get('window');
 
@@ -101,6 +102,14 @@ export default function Emergencia() {
             displayNumber="0800 722 6001"
             style={styles.intoxicacao}
           />
+        </View>
+
+        <View style={styles.locationSection}>
+          <Text style={styles.locationSectionTitle}>Sua Localização</Text>
+          <Text style={styles.locationSectionSubtitle}>
+            Informe sua posição ao acionar um serviço de emergência
+          </Text>
+          <LocationShare title="Obter e Compartilhar Localização" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -213,5 +222,21 @@ const styles = StyleSheet.create({
     right: 0,
     height: 12,
     backgroundColor: '#f5c518',
+  },
+
+  locationSection: {
+    marginTop: 24,
+    marginBottom: 12,
+  },
+  locationSectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#333',
+    marginBottom: 4,
+  },
+  locationSectionSubtitle: {
+    fontSize: 13,
+    color: '#6b7280',
+    marginBottom: 4,
   },
 });
