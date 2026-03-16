@@ -4,7 +4,7 @@ Um aplicativo mobile de emergência e primeiros socorros desenvolvido para **ár
 
 ## 📱 Sobre o Projeto
 
-O **SOS Campo Novo** oferece informações rápidas e práticas sobre como agir em situações de emergência.
+O **SOS Campo** oferece informações rápidas e práticas sobre como agir em situações de emergência.
 
 ### Funcionalidades:
 - 🩹 **Primeiros Socorros**: Instruções passo a passo
@@ -77,4 +77,4 @@ Este app é **informativo**. Em emergências reais, sempre busque ajuda médica 
 
 ---
 
-**Desenvolvido com ❤️ para salvar vidas em áreas rurais**: Chat with Expo users and ask questions.
+**Desenvolvido com responsabilidade para salvar vidas em áreas rurais**: Chat with Expo users and ask questions.
