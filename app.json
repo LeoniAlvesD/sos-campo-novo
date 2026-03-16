@@ -30,7 +30,6 @@
 
     "plugins": [
       "expo-router",
-      "expo-clipboard",
       [
         "expo-location",
         {
