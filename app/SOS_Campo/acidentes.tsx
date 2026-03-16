@@ -1,3 +1,4 @@
+import { Header } from '@/components/Header';
 import { acidentes } from '@/constants/acidentes';
 import { theme } from '@/constants/theme';
 import { useResponsive } from '@/hooks/useResponsive';
@@ -14,43 +15,54 @@ export default function Acidentes() {
   const { scale } = useResponsive();
 
   return (
-    <FlatList
-      data={acidentes}
-      keyExtractor={(item) => item.id}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-      renderItem={({ item }) => (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`Ver detalhes de ${item.nome}`}
-          style={({ pressed }) => [
-            styles.card,
-            pressed && styles.cardPressed,
-          ]}
-          onPress={() => router.push(`/acidente/${item.id}`)}
-        >
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>{item.nome}</Text>
-            <Text style={styles.description} numberOfLines={2}>
-              {item.descricao}
-            </Text>
-          </View>
+    <View style={styles.screen}>
+      <Header
+        title="Primeiros Socorros"
+        subtitle="Selecione o tipo de acidente para ver orientações"
+        onBack={() => router.back()}
+      />
+      <FlatList
+        data={acidentes}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+        renderItem={({ item }) => (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Ver detalhes de ${item.nome}`}
+            style={({ pressed }) => [
+              styles.card,
+              pressed && styles.cardPressed,
+            ]}
+            onPress={() => router.push(`/acidente/${item.id}`)}
+          >
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>{item.nome}</Text>
+              <Text style={styles.description} numberOfLines={2}>
+                {item.descricao}
+              </Text>
+            </View>
 
-          <View style={[styles.arrowContainer, { width: scale(40), height: scale(40), borderRadius: scale(20) }]}>
-            <Text style={styles.arrow}>›</Text>
-          </View>
-        </Pressable>
-      )}
-    />
+            <View style={[styles.arrowContainer, { width: scale(40), height: scale(40), borderRadius: scale(20) }]}>
+              <Text style={styles.arrow}>›</Text>
+            </View>
+          </Pressable>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+
   container: {
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xxl,
-    backgroundColor: theme.colors.background,
   },
 
   card: {

@@ -1,6 +1,8 @@
 import { Button } from '@/components/Button';
+import { Header } from '@/components/Header';
 import { Input } from '@/components/Input';
 import { theme } from '@/constants/theme';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -72,17 +74,21 @@ export default function CalculadoraIMC() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <View style={styles.screen}>
+      <Header
+        title="Calculadora de IMC"
+        subtitle="Avalie seu índice de massa corporal"
+        onBack={() => router.back()}
+      />
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollContent}
       >
-        <Text style={styles.title}>Calculadora de IMC</Text>
-
         <Input
           label="Peso (kg)"
           keyboardType="numeric"
@@ -140,27 +146,24 @@ export default function CalculadoraIMC() {
         )}
       </ScrollView>
     </KeyboardAvoidingView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+
+  container: {
+    flex: 1,
   },
 
   scrollContent: {
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xxl,
-  },
-
-  title: {
-    fontSize: theme.font.title,
-    fontWeight: theme.fontWeights.bold,
-    textAlign: 'center',
-    marginBottom: theme.spacing.xl,
-    color: theme.colors.text,
   },
 
   calculateButton: {

@@ -1,7 +1,9 @@
 import ShareLocationModal from '@/components/ShareLocationModal';
+import { Header } from '@/components/Header';
 import { theme } from '@/constants/theme';
 import { createTable, deleteLocation, getLocations, insertLocation } from '@/hooks/useLocationDatabase';
 import * as Location from 'expo-location';
+import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -100,9 +102,11 @@ export default function LocalizacaoScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.pageTitle}>Marcar Localização</Text>
-      </View>
+      <Header
+        title="Marcar Localização"
+        subtitle="Registre sua posição GPS offline"
+        onBack={() => router.back()}
+      />
 
       <View style={styles.content}>
       <TouchableOpacity
@@ -212,28 +216,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8FAFC',
   },
 
-  header: {
-    backgroundColor: theme.colors.primary,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 6,
-  },
-
   content: {
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 20,
-  },
-
-  pageTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#FFFFFF',
   },
 
   primaryButton: {
