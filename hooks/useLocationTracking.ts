@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
 const useLocationTracking = () => {
-  const [location, setLocation] = React.useState(null);
-  const [errorMsg, setErrorMsg] = React.useState(null);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     (async () => {
