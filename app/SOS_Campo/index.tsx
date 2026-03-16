@@ -86,13 +86,7 @@ export default function Home() {
             onPress={() => router.push('/SOS_Campo/calculadora')}
             accessibilityLabel="Abrir calculadora de IMC"
           />
-          <NavButton
-            title="Marcar Localização"
-            description="Registre sua posição GPS offline"
-            color={theme.colors.action}
-            onPress={() => router.push('/SOS_Campo/localizacao')}
-            accessibilityLabel="Abrir tela de localização GPS"
-          />
+
         </View>
 
         {/* Área Jurídica */}

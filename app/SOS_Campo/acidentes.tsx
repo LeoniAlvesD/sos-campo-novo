@@ -9,48 +9,104 @@ import {
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Acidentes() {
   const { scale } = useResponsive();
 
-  return (
-    <FlatList
-      data={acidentes}
-      keyExtractor={(item) => item.id}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-      renderItem={({ item }) => (
+  const header = (
+    <View>
+      <View style={styles.headerTop}>
         <Pressable
+          onPress={() => router.back()}
+          hitSlop={theme.hitSlop}
           accessibilityRole="button"
-          accessibilityLabel={`Ver detalhes de ${item.nome}`}
-          style={({ pressed }) => [
-            styles.card,
-            pressed && styles.cardPressed,
-          ]}
-          onPress={() => router.push(`/acidente/${item.id}`)}
+          accessibilityLabel="Voltar"
         >
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>{item.nome}</Text>
-            <Text style={styles.description} numberOfLines={2}>
-              {item.descricao}
-            </Text>
-          </View>
-
-          <View style={[styles.arrowContainer, { width: scale(40), height: scale(40), borderRadius: scale(20) }]}>
-            <Text style={styles.arrow}>›</Text>
-          </View>
+          <Text style={styles.backArrow}>← Voltar</Text>
         </Pressable>
-      )}
-    />
+      </View>
+      <View style={styles.header}>
+        <Text style={styles.screenTitle}>Primeiros Socorros</Text>
+        <Text style={styles.subtitle}>Ações imediatas para situações de risco</Text>
+      </View>
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <FlatList
+        data={acidentes}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+        ListHeaderComponent={header}
+        renderItem={({ item }) => (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Ver detalhes de ${item.nome}`}
+            style={({ pressed }) => [
+              styles.card,
+              pressed && styles.cardPressed,
+            ]}
+            onPress={() => router.push(`/acidente/${item.id}`)}
+          >
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>{item.nome}</Text>
+              <Text style={styles.description} numberOfLines={2}>
+                {item.descricao}
+              </Text>
+            </View>
+
+            <View style={[styles.arrowContainer, { width: scale(40), height: scale(40), borderRadius: scale(20) }]}>
+              <Text style={styles.arrow}>›</Text>
+            </View>
+          </Pressable>
+        )}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+
   container: {
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xxl,
     backgroundColor: theme.colors.background,
+  },
+
+  headerTop: {
+    marginBottom: theme.spacing.sm,
+  },
+
+  backArrow: {
+    fontSize: theme.font.text,
+    color: theme.colors.primary,
+    fontWeight: theme.fontWeights.semibold,
+  },
+
+  header: {
+    alignItems: 'center',
+    marginBottom: theme.spacing.xl,
+  },
+
+  screenTitle: {
+    fontSize: theme.font.title,
+    fontWeight: theme.fontWeights.bold,
+    color: theme.colors.text,
+  },
+
+  subtitle: {
+    marginTop: theme.spacing.sm,
+    fontSize: theme.font.small,
+    color: theme.colors.muted,
+    textAlign: 'center',
   },
 
   card: {

@@ -1,6 +1,7 @@
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { theme } from '@/constants/theme';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -11,6 +12,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface IMCResult {
   imc: number;
@@ -72,16 +74,31 @@ export default function CalculadoraIMC() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContent}
+    <SafeAreaView style={styles.safeArea}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <Text style={styles.title}>Calculadora de IMC</Text>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollContent}
+        >
+          <View style={styles.headerTop}>
+            <Pressable
+              onPress={() => router.back()}
+              hitSlop={theme.hitSlop}
+              accessibilityRole="button"
+              accessibilityLabel="Voltar"
+            >
+              <Text style={styles.backArrow}>← Voltar</Text>
+            </Pressable>
+          </View>
+
+          <View style={styles.header}>
+            <Text style={styles.title}>Calculadora de IMC</Text>
+            <Text style={styles.subtitle}>Avalie seu índice de massa corporal</Text>
+          </View>
 
         <Input
           label="Peso (kg)"
@@ -138,12 +155,18 @@ export default function CalculadoraIMC() {
             </Pressable>
           </View>
         )}
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
@@ -155,12 +178,33 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.xxl,
   },
 
+  headerTop: {
+    marginBottom: theme.spacing.sm,
+  },
+
+  backArrow: {
+    fontSize: theme.font.text,
+    color: theme.colors.primary,
+    fontWeight: theme.fontWeights.semibold,
+  },
+
+  header: {
+    alignItems: 'center',
+    marginBottom: theme.spacing.xl,
+  },
+
   title: {
     fontSize: theme.font.title,
     fontWeight: theme.fontWeights.bold,
     textAlign: 'center',
-    marginBottom: theme.spacing.xl,
     color: theme.colors.text,
+  },
+
+  subtitle: {
+    marginTop: theme.spacing.sm,
+    fontSize: theme.font.small,
+    color: theme.colors.muted,
+    textAlign: 'center',
   },
 
   calculateButton: {

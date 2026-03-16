@@ -40,15 +40,6 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="localizacao"
-        options={{
-          title: 'Localização',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="location" size={22} color={color} />
-          ),
-        }}
-      />
     </Tabs>
   );
 }

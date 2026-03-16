@@ -1,7 +1,9 @@
 import { acidentes } from '@/constants/acidentes';
-import { useLocalSearchParams } from 'expo-router';
+import { theme } from '@/constants/theme';
+import { router, useLocalSearchParams } from 'expo-router';
 import {
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,6 +27,17 @@ export default function DetalheAcidente() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
+
+        <View style={styles.headerTop}>
+          <Pressable
+            onPress={() => router.back()}
+            hitSlop={theme.hitSlop}
+            accessibilityRole="button"
+            accessibilityLabel="Voltar"
+          >
+            <Text style={styles.backArrow}>← Voltar</Text>
+          </Pressable>
+        </View>
 
         {/* AVISO LEGAL SUPERIOR */}
         <View style={styles.disclaimerBox}>
@@ -88,18 +101,30 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#f4f6f8',
+    backgroundColor: theme.colors.background,
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.xl,
+  },
+
+  headerTop: {
+    marginBottom: theme.spacing.sm,
+  },
+
+  backArrow: {
+    fontSize: theme.font.text,
+    color: theme.colors.primary,
+    fontWeight: theme.fontWeights.semibold,
   },
 
   disclaimerBox: {
-    backgroundColor: '#fff3cd',
-    padding: 14,
-    margin: 16,
-    borderRadius: 10,
+    backgroundColor: theme.colors.warningBg,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    borderRadius: theme.radius.sm,
   },
 
   disclaimerText: {
-    fontSize: 12,
+    fontSize: theme.font.tiny,
     color: '#856404',
     textAlign: 'center',
   },
@@ -108,57 +133,62 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 220,
     resizeMode: 'cover',
+    borderRadius: theme.radius.md,
+    marginBottom: theme.spacing.md,
   },
 
   content: {
-    padding: 20,
+    paddingBottom: theme.spacing.xxl,
   },
 
   title: {
-    fontSize: 22,
-    fontWeight: '700',
-    marginBottom: 10,
+    fontSize: theme.font.subtitle,
+    fontWeight: theme.fontWeights.bold,
+    marginBottom: theme.spacing.sm,
+    color: theme.colors.text,
   },
 
   description: {
-    fontSize: 15,
-    color: '#6b7280',
-    marginBottom: 16,
-    lineHeight: 22,
+    fontSize: theme.font.body,
+    color: theme.colors.muted,
+    marginBottom: theme.spacing.md,
+    lineHeight: theme.lineHeights.relaxed,
   },
 
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    marginTop: 10,
-    marginBottom: 6,
+    fontSize: theme.font.text,
+    fontWeight: theme.fontWeights.bold,
+    marginTop: theme.spacing.sm,
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text,
   },
 
   step: {
-    fontSize: 14,
-    marginBottom: 4,
-    color: '#374151',
-    lineHeight: 20,
+    fontSize: theme.font.small,
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.textSecondary,
+    lineHeight: theme.lineHeights.normal,
   },
 
   danger: {
-    fontSize: 14,
-    marginBottom: 4,
-    color: '#c62828',
-    lineHeight: 20,
+    fontSize: theme.font.small,
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.danger,
+    lineHeight: theme.lineHeights.normal,
   },
 
   footerWarning: {
-    marginTop: 20,
-    padding: 14,
-    backgroundColor: '#e3f2fd',
-    borderRadius: 10,
+    marginTop: theme.spacing.lg,
+    padding: theme.spacing.md,
+    backgroundColor: theme.colors.infoBg,
+    borderRadius: theme.radius.sm,
   },
 
   footerText: {
-    fontSize: 13,
-    color: '#0d47a1',
+    fontSize: theme.font.small,
+    color: theme.colors.info,
     textAlign: 'center',
+    lineHeight: theme.lineHeights.normal,
   },
 
 });
