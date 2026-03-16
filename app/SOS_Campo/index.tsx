@@ -89,7 +89,11 @@ export default function Home() {
           >
             <Text style={styles.buttonTitle}>Marcar Localização</Text>
             <Text style={styles.buttonDescription}>
+<<<<<<< HEAD
               Registre sua posição GPS
+=======
+              Registre sua posição GPS offline
+>>>>>>> 8641b9dd8730f75bed3b36c96e0fe45013467930
             </Text>
           </Pressable>
 

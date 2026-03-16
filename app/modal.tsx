@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default function ModalScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>🚜 SOS Campo</Text>
+      <Text style={styles.title}>SOS Campo</Text>
 
       <TouchableOpacity
         style={styles.button}
