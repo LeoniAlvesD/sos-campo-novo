@@ -45,11 +45,11 @@ export default function LocalizacaoScreen() {
       const timestamp = new Date().toLocaleString('pt-BR');
       await insertLocation(timestamp, latitude, longitude);
       
-      Alert.alert('✅ Localização marcada!', `Latitude: ${latitude.toFixed(4)}\nLongitude: ${longitude.toFixed(4)}`);
+      Alert.alert('Localização marcada!', `Latitude: ${latitude.toFixed(4)}\nLongitude: ${longitude.toFixed(4)}`);
       
       loadLocations();
     } catch (error) {
-      Alert.alert('❌ Erro', 'Não foi possível obter sua localização');
+      Alert.alert('Erro', 'Não foi possível obter sua localização');
       console.error(error);
     } finally {
       setLoading(false);
@@ -69,10 +69,10 @@ export default function LocalizacaoScreen() {
   const handleDeleteLocation = async (id: number) => {
     try {
       await deleteLocation(id);
-      Alert.alert('✅ Deletado', 'Localização removida com sucesso');
+      Alert.alert('Deletado', 'Localização removida com sucesso');
       loadLocations();
     } catch (error) {
-      Alert.alert('❌ Erro', 'Não foi possível deletar a localização');
+      Alert.alert('Erro', 'Não foi possível deletar a localização');
     }
   };
 
@@ -81,7 +81,7 @@ export default function LocalizacaoScreen() {
       <View style={styles.locationInfo}>
         <Text style={styles.locationName}>{item.name}</Text>
         <Text style={styles.locationCoords}>
-          📍 {item.latitude.toFixed(4)}, {item.longitude.toFixed(4)}
+          {item.latitude.toFixed(4)}, {item.longitude.toFixed(4)}
         </Text>
       </View>
       <TouchableOpacity
@@ -95,7 +95,7 @@ export default function LocalizacaoScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>📍 Marcador de Localização Offline</Text>
+      <Text style={styles.title}>Marcador de Localização Offline</Text>
 
       {location && (
         <View style={styles.currentLocationBox}>
@@ -115,7 +115,7 @@ export default function LocalizacaoScreen() {
         disabled={loading}
       >
         <Text style={styles.markButtonText}>
-          {loading ? 'Obtendo localização...' : '📌 Marcar Localização Atual'}
+          {loading ? 'Obtendo localização...' : 'Marcar Localização Atual'}
         </Text>
       </TouchableOpacity>
 
