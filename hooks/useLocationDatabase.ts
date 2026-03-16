@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-const DATABASE_NAME = 'locations.db';
+const DATABASE_NAME = 'sos_campo.db';
 
 let db: SQLite.SQLiteDatabase | null = null;
 
@@ -12,41 +12,78 @@ const initDatabase = async () => {
 };
 
 const createTable = async () => {
-  const database = await initDatabase();
-  if (database) {
-    await database.execAsync(
-      'CREATE TABLE IF NOT EXISTS locations (' +
-      'id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-      'name TEXT NOT NULL, ' +
-      'latitude REAL NOT NULL, ' +
-      'longitude REAL NOT NULL);'
-    );
+  try {
+    const database = await initDatabase();
+    if (database) {
+      await database.execAsync(
+        'CREATE TABLE IF NOT EXISTS locations (' +
+        'id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
+        'latitude REAL NOT NULL, ' +
+        'longitude REAL NOT NULL, ' +
+        'accuracy REAL, ' +
+        'timestamp TEXT NOT NULL);'
+      );
+    }
+  } catch (error) {
+    console.error('Erro ao criar tabela:', error);
   }
 };
 
-const insertLocation = async (name: string, latitude: number, longitude: number) => {
-  const database = await initDatabase();
-  if (database) {
-    await database.runAsync(
-      'INSERT INTO locations (name, latitude, longitude) VALUES (?, ?, ?)',
-      [name, latitude, longitude]
-    );
+const insertLocation = async (
+  latitude: number,
+  longitude: number,
+  accuracy: number | null,
+  timestamp: string
+) => {
+  try {
+    const database = await initDatabase();
+    if (database) {
+      await database.runAsync(
+        'INSERT INTO locations (latitude, longitude, accuracy, timestamp) VALUES (?, ?, ?, ?)',
+        [latitude, longitude, accuracy, timestamp]
+      );
+    }
+  } catch (error) {
+    console.error('Erro ao inserir localização:', error);
+    throw error;
   }
 };
 
-const getLocations = async (): Promise<any[]> => {
-  const database = await initDatabase();
-  if (database) {
-    const result = await database.getAllAsync<any>('SELECT * FROM locations');
-    return result || [];
+const getLocations = async (): Promise<{
+  id: number;
+  latitude: number;
+  longitude: number;
+  accuracy: number | null;
+  timestamp: string;
+}[]> => {
+  try {
+    const database = await initDatabase();
+    if (database) {
+      const result = await database.getAllAsync<{
+        id: number;
+        latitude: number;
+        longitude: number;
+        accuracy: number | null;
+        timestamp: string;
+      }>('SELECT * FROM locations ORDER BY timestamp DESC');
+      return result || [];
+    }
+    return [];
+  } catch (error) {
+    console.error('Erro ao buscar localizações:', error);
+    return [];
   }
-  return [];
 };
 
 const deleteLocation = async (id: number) => {
-  const database = await initDatabase();
-  if (database) {
-    await database.runAsync('DELETE FROM locations WHERE id = ?', [id]);
+  try {
+    const database = await initDatabase();
+    if (database) {
+      await database.runAsync('DELETE FROM locations WHERE id = ?', [id]);
+    }
+  } catch (error) {
+    console.error('Erro ao deletar localização:', error);
+    throw error;
   }
 };
 
