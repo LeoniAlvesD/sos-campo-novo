@@ -77,6 +77,19 @@ export default function Home() {
               Avalie seu índice de massa corporal
             </Text>
           </Pressable>
+          <Pressable
+      style={({ pressed }) => [
+          styles.button,
+          styles.location,
+          pressed && styles.buttonPressed
+          ]}
+  onPress={() => router.push('/SOS_Campo/localizacao')}
+>
+  <Text style={styles.buttonTitle}>📍 Marcar Localização</Text>
+  <Text style={styles.buttonDescription}>
+    Registre sua posição GPS offline
+  </Text>
+</Pressable>
 
         </View>
 
@@ -173,6 +186,10 @@ const styles = StyleSheet.create({
 
   secondary: {
     backgroundColor: '#334155',
+  },
+
+  location: {
+    backgroundColor: '#2563eb',
   },
 
   buttonTitle: {
