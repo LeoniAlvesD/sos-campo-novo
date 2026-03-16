@@ -189,8 +189,11 @@ const styles = StyleSheet.create({
   },
 
   locationSection: {
-    marginTop: theme.spacing.lg,
-    marginBottom: theme.spacing.md,
+    marginTop: theme.spacing.xl,
+    marginBottom: theme.spacing.lg,
+    paddingTop: theme.spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border,
   },
 
   locationSectionTitle: {
@@ -203,7 +206,7 @@ const styles = StyleSheet.create({
   locationSectionSubtitle: {
     fontSize: theme.font.small,
     color: theme.colors.muted,
-    marginBottom: theme.spacing.xs,
+    marginBottom: theme.spacing.md,
     lineHeight: theme.lineHeights.normal,
   },
 });

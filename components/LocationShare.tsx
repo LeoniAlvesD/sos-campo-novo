@@ -96,11 +96,11 @@ export default function LocationShare({ title = 'Compartilhar Localização' }: 
 
       {coords && (
         <View style={styles.coordsBox}>
-          <Text style={styles.coordsLabel}>Coordenadas:</Text>
+          <Text style={styles.coordsLabel}>COORDENADAS</Text>
           <Text style={styles.coordsText}>{coordsText}</Text>
           {coords.accuracy != null && (
             <Text style={styles.accuracyText}>
-              Precisão: {coords.accuracy.toFixed(0)} m
+              Precisão: {coords.accuracy.toFixed(0)}{'\u00A0'}m
             </Text>
           )}
           <TouchableOpacity
@@ -109,13 +109,13 @@ export default function LocationShare({ title = 'Compartilhar Localização' }: 
             accessibilityRole="link"
             accessibilityLabel="Abrir no Google Maps"
           >
-            <Text style={styles.mapsLink}>{mapsUrl}</Text>
+            <Text style={styles.mapsLink} numberOfLines={1}>{mapsUrl}</Text>
           </TouchableOpacity>
         </View>
       )}
 
       <TouchableOpacity
-        style={[styles.button, styles.buttonPrimary, loading && styles.buttonDisabled]}
+        style={[styles.primaryButton, loading && styles.buttonDisabled]}
         onPress={getLocation}
         disabled={loading}
         accessibilityRole="button"
@@ -125,7 +125,7 @@ export default function LocationShare({ title = 'Compartilhar Localização' }: 
         {loading ? (
           <ActivityIndicator color={theme.colors.inverse} />
         ) : (
-          <Text style={styles.buttonText}>
+          <Text style={styles.primaryButtonText}>
             {coords ? 'Atualizar Localização' : 'Obter Localização'}
           </Text>
         )}
@@ -134,30 +134,30 @@ export default function LocationShare({ title = 'Compartilhar Localização' }: 
       {coords && (
         <View style={styles.actionsRow}>
           <TouchableOpacity
-            style={[styles.button, styles.buttonSecondary, styles.actionButton]}
+            style={[styles.actionBtn, styles.actionBtnCopy]}
             onPress={copyToClipboard}
             accessibilityRole="button"
             accessibilityLabel="Copiar coordenadas"
           >
-            <Text style={styles.buttonText}>Copiar</Text>
+            <Text style={[styles.actionBtnText, styles.actionBtnTextDark]} numberOfLines={1}>Copiar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, styles.buttonGreen, styles.actionButton]}
+            style={[styles.actionBtn, styles.actionBtnShare]}
             onPress={shareLocation}
             accessibilityRole="button"
             accessibilityLabel="Compartilhar localização"
           >
-            <Text style={styles.buttonText}>Compartilhar</Text>
+            <Text style={styles.actionBtnText} numberOfLines={1}>Compartilhar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, styles.buttonMaps, styles.actionButton]}
+            style={[styles.actionBtn, styles.actionBtnMaps]}
             onPress={openMaps}
             accessibilityRole="button"
             accessibilityLabel="Abrir no Maps"
           >
-            <Text style={styles.buttonText}>Maps</Text>
+            <Text style={styles.actionBtnText} numberOfLines={1}>Maps</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -167,103 +167,119 @@ export default function LocationShare({ title = 'Compartilhar Localização' }: 
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.card,
-    borderRadius: theme.radius.md,
-    padding: theme.spacing.md,
-    marginVertical: theme.spacing.sm,
-    ...theme.shadow.card,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.12,
+    shadowRadius: 3,
+    elevation: 3,
   },
 
   title: {
-    fontSize: theme.font.text,
-    fontWeight: theme.fontWeights.bold,
-    color: theme.colors.text,
-    marginBottom: theme.spacing.md,
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#0F172A',
+    marginBottom: 14,
   },
 
   errorText: {
     color: theme.colors.danger,
-    fontSize: theme.font.small,
-    marginBottom: theme.spacing.sm,
+    fontSize: 13,
+    marginBottom: 10,
   },
 
   coordsBox: {
-    backgroundColor: theme.colors.infoBg,
-    borderRadius: theme.radius.sm,
-    padding: theme.spacing.md,
-    marginBottom: theme.spacing.md,
-    borderLeftWidth: 4,
-    borderLeftColor: theme.colors.infoBorder,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: theme.colors.primary,
   },
 
   coordsLabel: {
-    fontSize: theme.font.tiny,
-    fontWeight: theme.fontWeights.semibold,
-    color: theme.colors.info,
-    marginBottom: theme.spacing.xs,
+    fontSize: 10,
+    fontWeight: '600',
+    color: theme.colors.primary,
+    letterSpacing: 0.8,
+    marginBottom: 6,
   },
 
   coordsText: {
-    fontSize: theme.font.small,
-    color: theme.colors.text,
+    fontSize: 13,
+    color: '#0F172A',
     fontFamily: 'monospace',
-    marginBottom: theme.spacing.xs,
+    fontWeight: '600',
+    marginBottom: 4,
   },
 
   accuracyText: {
-    fontSize: theme.font.tiny,
-    color: theme.colors.muted,
-    marginBottom: theme.spacing.xs,
+    fontSize: 12,
+    color: '#64748B',
+    marginBottom: 6,
   },
 
   mapsLink: {
-    fontSize: theme.font.tiny,
+    fontSize: 11,
     color: theme.colors.info,
     textDecorationLine: 'underline',
   },
 
-  button: {
-    paddingVertical: theme.spacing.sm + 2,
-    paddingHorizontal: theme.spacing.md,
-    borderRadius: theme.radius.sm,
+  primaryButton: {
+    backgroundColor: theme.colors.primary,
+    height: 48,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: theme.minTouchSize,
-  },
-
-  buttonPrimary: {
-    backgroundColor: theme.colors.action,
-    marginBottom: theme.spacing.sm,
-  },
-
-  buttonSecondary: {
-    backgroundColor: theme.colors.emphasis,
-  },
-
-  buttonGreen: {
-    backgroundColor: theme.colors.success,
-  },
-
-  buttonMaps: {
-    backgroundColor: '#e65100',
+    marginBottom: 10,
   },
 
   buttonDisabled: {
     opacity: 0.5,
   },
 
-  buttonText: {
-    color: theme.colors.inverse,
-    fontSize: theme.font.small,
-    fontWeight: theme.fontWeights.semibold,
+  primaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '600',
   },
 
   actionsRow: {
     flexDirection: 'row',
-    gap: theme.spacing.sm,
+    gap: 8,
   },
 
-  actionButton: {
+  actionBtn: {
     flex: 1,
+    height: 40,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+
+  actionBtnCopy: {
+    backgroundColor: '#F1F5F9',
+  },
+
+  actionBtnShare: {
+    backgroundColor: theme.colors.primary,
+  },
+
+  actionBtnMaps: {
+    backgroundColor: '#EA580C',
+  },
+
+  actionBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+
+  actionBtnTextDark: {
+    color: '#334155',
   },
 });

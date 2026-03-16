@@ -100,81 +100,91 @@ export default function LocalizacaoScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>📍 Marcar Localização</Text>
+      <Text style={styles.pageTitle}>Marcar Localização</Text>
 
       <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
+        style={[styles.primaryButton, loading && styles.buttonDisabled]}
         onPress={getCurrentLocation}
         disabled={loading}
         accessibilityRole="button"
         accessibilityLabel={loading ? 'Obtendo localização' : 'Obter minha localização'}
         accessibilityState={{ busy: loading, disabled: loading }}
       >
-        <Text style={styles.buttonText}>
-          {loading ? '⏳ Obtendo localização...' : '🔍 Obter Minha Localização'}
+        <Text style={styles.primaryButtonText}>
+          {loading ? 'Obtendo localização...' : 'Obter Minha Localização'}
         </Text>
       </TouchableOpacity>
 
       {location && (
-        <View style={styles.locationBox}>
-          <Text style={styles.locationTitle}>📌 Sua Localização Atual:</Text>
-          <Text style={styles.locationText}>
-            <Text style={styles.coordLabel}>Latitude:</Text>{' '}
-            {location.coords.latitude.toFixed(6)}
-          </Text>
-          <Text style={styles.locationText}>
-            <Text style={styles.coordLabel}>Longitude:</Text>{' '}
-            {location.coords.longitude.toFixed(6)}
-          </Text>
-          <Text style={styles.locationText}>
-            <Text style={styles.coordLabel}>Precisão:</Text>{' '}
-            {location.coords.accuracy?.toFixed(2)}m
-          </Text>
+        <View style={styles.currentCard}>
+          <Text style={styles.currentCardLabel}>LOCALIZAÇÃO ATUAL</Text>
+          <View style={styles.coordRow}>
+            <Text style={styles.coordKey}>Latitude</Text>
+            <Text style={styles.coordValue}>{location.coords.latitude.toFixed(6)}</Text>
+          </View>
+          <View style={styles.coordDivider} />
+          <View style={styles.coordRow}>
+            <Text style={styles.coordKey}>Longitude</Text>
+            <Text style={styles.coordValue}>{location.coords.longitude.toFixed(6)}</Text>
+          </View>
+          <View style={styles.coordDivider} />
+          <View style={styles.coordRow}>
+            <Text style={styles.coordKey}>Precisão</Text>
+            <Text style={styles.coordValue}>{location.coords.accuracy?.toFixed(0)}{'\u00A0'}m</Text>
+          </View>
         </View>
       )}
 
-      <Text style={styles.subtitle}>📋 Histórico ({locations.length}):</Text>
+      <View style={styles.historyHeader}>
+        <Text style={styles.historyTitle}>Histórico de Localizações</Text>
+        <View style={styles.historyBadge}>
+          <Text style={styles.historyBadgeText}>{locations.length}</Text>
+        </View>
+      </View>
 
       <FlatList
         data={locations}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.locationItem}>
-            <View style={styles.itemContent}>
-              <Text style={styles.itemTitle}>
-                📍 {item.latitude.toFixed(6)}, {item.longitude.toFixed(6)}
+          <View style={styles.historyCard}>
+            <View style={styles.historyCardLeft}>
+              <View style={styles.historyAccent} />
+            </View>
+            <View style={styles.historyCardBody}>
+              <Text style={styles.historyCoords} numberOfLines={1}>
+                {item.latitude.toFixed(6)}, {item.longitude.toFixed(6)}
               </Text>
-              <Text style={styles.itemSubtitle}>
-                Precisão: {item.accuracy?.toFixed(2)}m
+              <Text style={styles.historyMeta}>
+                Precisão: {item.accuracy?.toFixed(0)}{'\u00A0'}m
               </Text>
-              <Text style={styles.itemTime}>
+              <Text style={styles.historyTime}>
                 {new Date(item.timestamp).toLocaleString('pt-BR')}
               </Text>
-            </View>
-
-            <View style={styles.actionButtons}>
-              <TouchableOpacity
-                style={styles.shareButton}
-                onPress={() => handleOpenShareModal(item)}
-                accessibilityRole="button"
-                accessibilityLabel="Compartilhar localização"
-              >
-                <Text style={styles.shareButtonText}>📤</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => deleteLocationRecord(item.id)}
-                accessibilityRole="button"
-                accessibilityLabel="Excluir localização"
-              >
-                <Text style={styles.deleteButtonText}>🗑️</Text>
-              </TouchableOpacity>
+              <View style={styles.historyActions}>
+                <TouchableOpacity
+                  style={styles.actionShareBtn}
+                  onPress={() => handleOpenShareModal(item)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Compartilhar localização"
+                >
+                  <Text style={styles.actionShareText}>Compartilhar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.actionDeleteBtn}
+                  onPress={() => deleteLocationRecord(item.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Excluir localização"
+                >
+                  <Text style={styles.actionDeleteText}>Excluir</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         )}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Nenhuma localização salva ainda</Text>
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>Nenhuma localização salva ainda</Text>
+          </View>
         }
         scrollEnabled={true}
       />
@@ -195,149 +205,203 @@ export default function LocalizacaoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: theme.spacing.md,
-    backgroundColor: theme.colors.background,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    backgroundColor: '#F8FAFC',
   },
 
-  title: {
-    fontSize: theme.font.xl,
-    fontWeight: theme.fontWeights.bold,
-    marginBottom: theme.spacing.lg,
-    color: theme.colors.primary,
-    textAlign: 'center',
+  pageTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#0F172A',
+    marginBottom: 20,
   },
 
-  subtitle: {
-    fontSize: theme.font.text,
-    fontWeight: theme.fontWeights.semibold,
-    marginTop: theme.spacing.lg,
-    marginBottom: theme.spacing.sm,
-    color: theme.colors.textSecondary,
-  },
-
-  button: {
-    backgroundColor: theme.colors.action,
-    padding: theme.spacing.md - 1,
-    borderRadius: theme.radius.md,
+  primaryButton: {
+    backgroundColor: theme.colors.primary,
+    height: 48,
+    borderRadius: 10,
     alignItems: 'center',
-    marginBottom: theme.spacing.md,
-    minHeight: theme.minTouchSize,
     justifyContent: 'center',
-    ...theme.shadow.sm,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.12,
+    shadowRadius: 3,
+    elevation: 3,
   },
 
   buttonDisabled: {
     opacity: 0.55,
   },
 
-  buttonText: {
-    color: theme.colors.inverse,
-    fontSize: theme.font.text,
-    fontWeight: theme.fontWeights.bold,
+  primaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '600',
   },
 
-  locationBox: {
-    backgroundColor: theme.colors.card,
-    padding: theme.spacing.md,
-    borderRadius: theme.radius.md,
-    marginBottom: theme.spacing.md,
-    borderLeftWidth: 4,
-    borderLeftColor: theme.colors.successBorder,
-    ...theme.shadow.sm,
+  currentCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.12,
+    shadowRadius: 3,
+    elevation: 3,
   },
 
-  locationTitle: {
-    fontSize: theme.font.text,
-    fontWeight: theme.fontWeights.bold,
-    marginBottom: theme.spacing.sm,
-    color: theme.colors.text,
+  currentCardLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: theme.colors.primary,
+    letterSpacing: 0.8,
+    marginBottom: 12,
   },
 
-  locationText: {
-    fontSize: theme.font.small,
-    marginVertical: theme.spacing.xxs + 1,
-    color: theme.colors.muted,
-    fontFamily: 'monospace',
-  },
-
-  coordLabel: {
-    fontWeight: theme.fontWeights.semibold,
-    color: theme.colors.textSecondary,
-  },
-
-  locationItem: {
-    backgroundColor: theme.colors.card,
-    padding: theme.spacing.md,
-    marginBottom: theme.spacing.sm + 2,
-    borderRadius: theme.radius.md,
+  coordRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderLeftWidth: 3,
-    borderLeftColor: theme.colors.info,
-    ...theme.shadow.sm,
+    paddingVertical: 6,
   },
 
-  itemContent: {
-    flex: 1,
+  coordDivider: {
+    height: 1,
+    backgroundColor: '#F1F5F9',
   },
 
-  itemTitle: {
-    fontSize: theme.font.small,
-    fontWeight: theme.fontWeights.bold,
-    color: theme.colors.text,
+  coordKey: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#64748B',
+  },
+
+  coordValue: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#0F172A',
     fontFamily: 'monospace',
   },
 
-  itemSubtitle: {
-    fontSize: theme.font.tiny,
-    color: theme.colors.muted,
-    marginTop: theme.spacing.xs,
-  },
-
-  itemTime: {
-    fontSize: theme.font.tiny,
-    color: theme.colors.placeholder,
-    marginTop: theme.spacing.xs,
-  },
-
-  actionButtons: {
+  historyHeader: {
     flexDirection: 'row',
-    gap: theme.spacing.sm,
+    alignItems: 'center',
+    marginBottom: 12,
+    gap: 8,
   },
 
-  shareButton: {
-    padding: theme.spacing.sm + 2,
-    backgroundColor: theme.colors.infoBg,
-    borderRadius: theme.radius.sm,
+  historyTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#0F172A',
+  },
+
+  historyBadge: {
+    backgroundColor: '#F1F5F9',
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+
+  historyBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#64748B',
+  },
+
+  historyCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginBottom: 10,
+    flexDirection: 'row',
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+
+  historyCardLeft: {
+    width: 4,
+    backgroundColor: theme.colors.primary,
+  },
+
+  historyAccent: {
+    flex: 1,
+  },
+
+  historyCardBody: {
+    flex: 1,
+    padding: 14,
+  },
+
+  historyCoords: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#0F172A',
+    fontFamily: 'monospace',
+    marginBottom: 4,
+  },
+
+  historyMeta: {
+    fontSize: 12,
+    color: '#64748B',
+    marginBottom: 2,
+  },
+
+  historyTime: {
+    fontSize: 12,
+    color: '#94A3B8',
+    marginBottom: 10,
+  },
+
+  historyActions: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+
+  actionShareBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    backgroundColor: '#EFF6FF',
+    borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: theme.minTouchSize,
-    minHeight: theme.minTouchSize,
   },
 
-  shareButtonText: {
-    fontSize: 16,
+  actionShareText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#2563EB',
   },
 
-  deleteButton: {
-    padding: theme.spacing.sm + 2,
-    backgroundColor: theme.colors.dangerBg,
-    borderRadius: theme.radius.sm,
+  actionDeleteBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    backgroundColor: '#FEF2F2',
+    borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: theme.minTouchSize,
-    minHeight: theme.minTouchSize,
   },
 
-  deleteButtonText: {
-    fontSize: 16,
+  actionDeleteText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#DC2626',
+  },
+
+  emptyContainer: {
+    paddingVertical: 40,
+    alignItems: 'center',
   },
 
   emptyText: {
+    fontSize: 14,
+    color: '#94A3B8',
     textAlign: 'center',
-    color: theme.colors.placeholder,
-    marginTop: theme.spacing.xl,
-    fontSize: theme.font.small,
   },
 });
