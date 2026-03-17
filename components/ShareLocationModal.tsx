@@ -1,3 +1,24 @@
+/**
+ * ShareLocationModal – bottom-sheet modal with extended location sharing options.
+ *
+ * Provides quick-access buttons for Google Maps, Waze, WhatsApp, SMS, email,
+ * clipboard copy, and native share sheet.
+ *
+ * Usage example:
+ * ```tsx
+ * <ShareLocationModal
+ *   visible={modalVisible}
+ *   latitude={coords.latitude}
+ *   longitude={coords.longitude}
+ *   accuracy={coords.accuracy}
+ *   onClose={() => setModalVisible(false)}
+ * />
+ * ```
+ *
+ * This component is ready to use but not yet wired to any screen.
+ * Wire it to the Localização or Emergência screen when richer sharing
+ * options are needed.
+ */
 import {
     copyCoordinatesToClipboard,
     nativeShare,

@@ -31,8 +31,8 @@ export default function CalculadoraIMC() {
     const p = parseFloat(peso.replace(',', '.'));
     const a = parseFloat(altura.replace(',', '.'));
 
-    if (!p || !a || a <= 0) {
-      setErro('Preencha peso e altura corretamente.');
+    if (isNaN(p) || isNaN(a) || p <= 0 || a <= 0) {
+      setErro('Preencha peso e altura com valores válidos e maiores que zero.');
       setResultado(null);
       return;
     }

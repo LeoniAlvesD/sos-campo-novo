@@ -1,18 +1,21 @@
 import { router } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ModalScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>SOS Campo</Text>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => router.replace('/SOS_Campo')}
+        accessibilityRole="button"
+        accessibilityLabel="Voltar para o início"
       >
         <Text style={styles.buttonText}>Voltar para o início</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -63,8 +63,12 @@ export default function LocationShare({ title = 'Compartilhar Localização' }: 
 
   const copyToClipboard = async () => {
     if (!coords || !coordsText) return;
-    await Clipboard.setStringAsync(coordsText);
-    Alert.alert('Copiado!', `Coordenadas copiadas:\n${coordsText}`);
+    try {
+      await Clipboard.setStringAsync(coordsText);
+      Alert.alert('Copiado!', `Coordenadas copiadas:\n${coordsText}`);
+    } catch {
+      Alert.alert('Erro', 'Não foi possível copiar as coordenadas.');
+    }
   };
 
   const shareLocation = async () => {
