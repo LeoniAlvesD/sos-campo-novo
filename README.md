@@ -1,6 +1,6 @@
 # SOS CAMPO
 
-Orientacao rapida e resgate de emergencias no campo, com ou sem internet.
+Orientação rápida para primeiros socorros em emergências no campo, com ou sem acesso à internet.
 
 ---
 
