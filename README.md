@@ -1,61 +1,26 @@
 # sos-campo
 
-Aplicativo móvel em React Native (Expo) para orientar e acionar ajuda rápida em emergências no campo.
+Aplicativo móvel para orientar e pedir ajuda rápida em situações de emergência no campo.
 
-## O que o app faz
-- **Guia de primeiros socorros**: lista de acidentes com passos iniciais; abre detalhes de cada caso.
-- **Chamadas de emergência rápidas**: botões para SAMU (192), Bombeiros (193), Polícia Militar (190), PRF (191) e Disque Intoxicação ANVISA (0800 722 6001).
-- **Compartilhamento de localização**: componente dedicado para obter e enviar sua posição geográfica ao pedir socorro.
-- **Navegação acessível**: interface com botões grandes, rótulos de acessibilidade e feedback de toque.
-- **Seção jurídica e de fontes**: links internos para termos de uso, privacidade e referências.
-- **Calculadora de IMC**: acesso direto a uma calculadora de índice de massa corporal.
+## O que você pode fazer com o app
+- **Saber como agir**: guia simples de primeiros socorros com passos iniciais para acidentes comuns.
+- **Pedir socorro pelo telefone**: botões diretos para SAMU (192), Bombeiros (193), Polícia Militar (190), Polícia Rodoviária Federal (191) e Disque Intoxicação ANVISA (0800 722 6001).
+- **Compartilhar sua localização**: mostra e envia sua posição para que o socorro chegue mais rápido.
+- **Navegar com facilidade**: botões grandes, texto claro e rótulos de acessibilidade.
+- **Consultar termos e privacidade**: links internos para entender como o app usa suas informações.
+- **Usar a calculadora de IMC**: ferramenta rápida para conferir seu índice de massa corporal.
 
-## Tecnologias
-- **Expo + React Native**
-- **TypeScript**
-- **expo-router** para navegação em pilha.
-- **expo-location** (permissões configuradas no app) para acesso à localização.
+## Como começar a usar
+1. Baixe o código do repositório.
+2. Instale as dependências com `npm install` ou `yarn install`.
+3. Rode `npm start` ou `npx expo start` para abrir o app em modo de testes.
+4. Para ver no celular, use o aplicativo Expo Go ou execute `npm run android` / `npm run ios`.
 
-## Requisitos
-- Node.js 18+
-- npm ou yarn
-- Expo CLI (opcional, mas recomendado para desenvolvimento e builds)
-
-## Como executar
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/LeoniAlvesD/sos-campo.git
-   cd sos-campo
-   ```
-2. Instale as dependências:
-   ```bash
-   npm install
-   # ou
-   yarn install
-   ```
-3. Inicie o app (modo desenvolvimento):
-   ```bash
-   npm start
-   # ou
-   npx expo start
-   ```
-4. Rodar em dispositivo/emulador:
-   ```bash
-   npm run android
-   npm run ios
-   # ou via Expo
-   npx expo run:android
-   npx expo run:ios
-   ```
-
-## Estrutura resumida
-- `app/` — rotas (home, primeiros socorros, emergência, legal, etc.).
-- `components/` — componentes reutilizáveis (ex.: compartilhamento de localização).
-- `constants/` — temas e listas (ex.: acidentes).
-- `assets/` — ícones, imagens e splash.
-
-## Contribuição
-Contribuições são bem-vindas! Abra uma issue ou envie um PR com sua melhoria.
+## O que há dentro do projeto (resumo)
+- Telas do aplicativo (home, primeiros socorros, emergência, termos).
+- Componentes prontos, como o de compartilhar localização.
+- Listas e textos que alimentam as telas (por exemplo, acidentes e orientações).
+- Imagens e ícones do app.
 
 ## Licença
-MIT
+MIT — uso livre com atribuição.
